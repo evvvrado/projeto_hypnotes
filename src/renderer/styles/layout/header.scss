@@ -1,0 +1,43 @@
+header {
+	@include padding-y(3rem);
+
+	z-index: z('header');
+	width: 100%;
+
+	.container {
+		width: 100%;
+		.wrapper {
+			@include flex(row, center, space-between);
+			width: 100%;
+		}
+	}
+
+	.header {
+		&__logo {
+			transition: 0.32s;
+
+			&:hover {
+				filter: brightness(1.2);
+			}
+		}
+
+		&__search {
+			@extend %defaultLabel;
+			width: 100%;
+			max-width: 49.7rem;
+		}
+	}
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	@include media('<=phone') {
+		.container {
+			.wrapper {
+				flex-direction: column;
+				gap: 1rem;
+			}
+		}
+	}
+}

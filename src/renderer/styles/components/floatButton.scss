@@ -1,0 +1,33 @@
+.floatButton {
+	position: fixed;
+
+	margin: 0 auto;
+
+	bottom: 2rem;
+	left: 0;
+	right: 0;
+
+	border-radius: 100%;
+	transition: 0.32s;
+
+	height: 8rem;
+	width: 8rem;
+
+	@extend %center;
+
+	background-color: $color-secondary-background;
+	border: solid 1px $color-tertiary-background;
+
+	box-shadow: 0px 0px 50px -10px rgba(0, 0, 0, 0.25);
+
+	color: $color-primary;
+
+	&:hover {
+		cursor: pointer;
+		background-color: $color-tertiary-background;
+
+		.notecard__expand-button {
+			transform: scale(1);
+		}
+	}
+}

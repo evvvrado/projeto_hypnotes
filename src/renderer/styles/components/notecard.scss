@@ -1,0 +1,80 @@
+.notecard {
+	width: 35.2rem;
+	min-height: 30rem;
+	max-height: 43rem;
+	padding: 2rem;
+	border-radius: 1.5rem;
+
+	position: absolute;
+
+	transition: 0.32s;
+
+	background-color: $color-secondary-background;
+	border: solid 1px $color-tertiary-background;
+
+	box-shadow: 0px 0px 50px -10px rgba(0, 0, 0, 0.25);
+
+	&__title {
+		display: block;
+
+		font-size: 1.8rem;
+		font-weight: bold;
+		color: $color-primary;
+		font-family: $font-primary;
+		margin-bottom: 1.8rem;
+
+		word-break: break-all;
+
+		padding-right: 4rem;
+
+		max-height: 48rem;
+		-webkit-line-clamp: 2;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	&__expand-button {
+		@extend %center;
+
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 100%;
+
+		transform: scale(0);
+		transform-origin: center;
+		transition: 0.32s;
+
+		background-color: $color-background;
+		color: $color-secondary;
+
+		position: absolute;
+		right: 1.2rem;
+		top: 1.2rem;
+	}
+
+	&__content {
+		&__text {
+			font-size: 1.4rem;
+			line-height: 160%;
+			color: $color-secondary;
+
+			max-height: 33rem;
+			-webkit-line-clamp: 15;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+	}
+
+	&:hover {
+		cursor: pointer;
+		background-color: $color-tertiary-background;
+
+		.notecard__expand-button {
+			transform: scale(1);
+		}
+	}
+}

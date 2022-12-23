@@ -1,0 +1,10 @@
+main {
+	.container {
+		.wrapper {
+			position: relative;
+			// min-height: 80vh;
+			max-width: $container-area;
+			padding: 0;
+		}
+	}
+}
