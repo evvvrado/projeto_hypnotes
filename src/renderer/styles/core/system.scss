@@ -134,7 +134,7 @@ body {
 			color: $color-primary;
 			font-family: $font-primary;
 			margin-bottom: 1.8rem;
-			max-width: 80%;
+			max-width: 64%;
 		}
 
 		&__wrapper {
@@ -173,10 +173,10 @@ body {
 			max-width: 95vw;
 		}
 
-		&__content {
-			&__title {
-				padding-top: 4rem;
-			}
-		}
+		// &__content {
+		// 	&__title {
+		// 		padding-top: 4rem;
+		// 	}
+		// }
 	}
 }

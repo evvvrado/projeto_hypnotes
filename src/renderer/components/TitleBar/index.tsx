@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
 	Columns,
 	DeviceMobile,
@@ -9,26 +10,16 @@ import {
 	X,
 } from 'phosphor-react';
 
-const TitleBar: React.FC = () => {
-	const handleMenuTray = async () => {
-		window.electron.ipcRenderer.sendMessage('menu-tray', '');
-	};
-	const handleResize1 = async () => {
-		window.electron.ipcRenderer.sendMessage('resize-1', '');
-	};
-	const handleResize2 = async () => {
-		window.electron.ipcRenderer.sendMessage('resize-2', '');
-	};
-	const handleResize3 = async () => {
-		window.electron.ipcRenderer.sendMessage('resize-3', '');
-	};
-	const handleMaximize = async () => {
-		window.electron.ipcRenderer.sendMessage('maximize', '');
-	};
-	const handleClose = async () => {
-		window.electron.ipcRenderer.sendMessage('close', '');
-	};
+import {
+	handleMenuTray,
+	handleResize1,
+	handleResize2,
+	handleResize3,
+	handleMaximize,
+	handleClose,
+} from 'renderer/classes/ManageWindow';
 
+const TitleBar: React.FC = () => {
 	return (
 		<section className="titleBar">
 			<button type="button" className="titleBar__dragable">

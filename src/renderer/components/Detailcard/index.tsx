@@ -2,6 +2,7 @@
 import React, { useContext, useLayoutEffect, useRef, useState } from 'react';
 import { Context } from 'renderer/contexts/NoteProvider';
 import { CheckCircle, Export, Archive, X } from 'phosphor-react';
+import { handleMenuTray } from 'renderer/classes/ManageWindow';
 
 type TDetailCard = {
 	modalClose?: boolean;
@@ -35,7 +36,7 @@ const Detailcard: React.FC<TDetailCard> = ({ modalClose, toggleFunction }) => {
 				setWarningModal(false);
 			}, 320);
 		} else {
-			toggleFunction();
+			toggleFunction(true);
 		}
 	};
 
@@ -76,7 +77,13 @@ const Detailcard: React.FC<TDetailCard> = ({ modalClose, toggleFunction }) => {
 		window.addEventListener('keydown', (e) => {
 			if (e.ctrlKey && e.which === 83) {
 				e.preventDefault();
-				handleSaveNote();
+				if (!modalClose) handleSaveNote();
+			} else if (e.ctrlKey && e.which === 78) {
+				e.preventDefault();
+				if (modalClose) toggleFunction(true);
+			} else if (e.ctrlKey && e.which === 87) {
+				e.preventDefault();
+				handleMenuTray();
 			}
 		});
 	});
