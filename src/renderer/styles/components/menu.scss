@@ -1,0 +1,36 @@
+.floatButton {
+	position: fixed;
+	bottom: 3rem;
+	right: 3rem;
+
+	@extend %default-button;
+	color: $color-primary;
+}
+
+.floatMenu {
+	position: fixed;
+	bottom: 10rem;
+	right: -3rem;
+	transition: 0.32s;
+
+	opacity: 0;
+
+	@include flex(column, flex-end, flex-end, 2rem);
+
+	&__item {
+		&__button {
+			@extend %default-button;
+			pointer-events: none;
+			color: $color-primary;
+		}
+	}
+
+	&.show {
+		opacity: 1;
+		right: 3rem;
+
+		.floatMenu__item__button {
+			pointer-events: all;
+		}
+	}
+}

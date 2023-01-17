@@ -168,7 +168,9 @@ const Detailcard: React.FC<TDetailCard> = ({ modalClose, toggleFunction }) => {
 				type="button"
 				onClick={handleSaveNote}
 			>
-				<CheckCircle size={40} />
+				<CheckCircle size={23} />
+				<span>Salvar Anotação</span>
+				<small>CTRL + S</small>
 			</button>
 		</>
 	);

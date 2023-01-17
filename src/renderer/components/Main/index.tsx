@@ -1,7 +1,7 @@
 import React, { useContext, useLayoutEffect, useRef, useState } from 'react';
 import { Context } from 'renderer/contexts/NoteProvider';
 import { INoteCard } from 'renderer/@types/INoteCard';
-import FloatButton from '../FloatButton';
+import Menu from '../Menu';
 import Notecard from '../Notecard';
 
 const Main: React.FC = () => {
@@ -106,7 +106,7 @@ const Main: React.FC = () => {
 				</div>
 			</div>
 
-			<FloatButton
+			<Menu
 				handleToggleModal={handleToggleModal}
 				modalClose={modalClose}
 			/>
