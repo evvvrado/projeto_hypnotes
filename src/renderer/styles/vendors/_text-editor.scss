@@ -9,7 +9,6 @@
 	// background: #fff;
 	// border: 1px solid #ddd;
 	// font-family: "rgia", serif;
-	font-size: 14px;
 	color: $color-secondary;
 	overflow: hidden;
 }
@@ -17,7 +16,10 @@
 .RichEditor-editor {
 	// border-top: 1px solid #ddd;
 	cursor: text;
-	font-size: 16px;
+
+	font-size: 1.4rem;
+	line-height: 160%;
+	color: $color-secondary;
 }
 
 .RichEditor-editor .public-DraftEditorPlaceholder-root,
@@ -61,8 +63,8 @@
 
 		width: max-content;
 		position: absolute;
-		left: 2rem;
-		bottom: 2rem;
+		right: 4rem;
+		bottom: 3rem;
 		z-index: z('modals');
 		padding: 1rem;
 		border-radius: 1.2rem;
