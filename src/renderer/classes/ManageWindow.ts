@@ -16,3 +16,6 @@ export const handleMaximize = async () => {
 export const handleClose = async () => {
 	window.electron.ipcRenderer.sendMessage('close', '');
 };
+export const handleToggleAlwaysOnTop = async () => {
+	window.electron.ipcRenderer.sendMessage('toggle-always-top', '');
+};

@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
 	FrameCorners,
+	Layout,
 	List,
+	Lock,
+	LockOpen,
 	NumberSquareOne,
 	NumberSquareThree,
 	NumberSquareTwo,
@@ -18,9 +21,18 @@ import {
 	handleResize3,
 	handleMaximize,
 	handleClose,
+	handleToggleAlwaysOnTop,
 } from 'renderer/classes/ManageWindow';
 
 const TitleBar: React.FC = () => {
+	const [isLocked, setIsLocked] = useState(false);
+	const [showLayoutMenu, setShowLayoutMenu] = useState(false);
+
+	const handleToggleLockes = () => {
+		handleToggleAlwaysOnTop();
+		setIsLocked(!isLocked);
+	};
+
 	return (
 		<section className="titleBar">
 			<button type="button" className="titleBar__dragable">
@@ -35,29 +47,51 @@ const TitleBar: React.FC = () => {
 				<PictureInPicture size={18} />
 			</button>
 
-			{/* <button
+			<button
 				type="button"
-				className="titleBar__resizeTwoButton"
-				onClick={handleResize1}
+				className={`titleBar__toggleLockButton ${isLocked && 'locked'}`}
+				onClick={handleToggleLockes}
 			>
-				<NumberSquareOne size={18} />
+				{!isLocked ? <LockOpen size={18} /> : <Lock size={18} />}
 			</button>
 
 			<button
 				type="button"
-				className="titleBar__resizeTwoButton"
-				onClick={handleResize2}
+				className="titleBar__toggleLockButton"
+				onClick={() => setShowLayoutMenu(!showLayoutMenu)}
 			>
-				<NumberSquareTwo size={18} />
+				<Layout size={18} />
 			</button>
 
-			<button
-				type="button"
-				className="titleBar__resizeTreeButton"
-				onClick={handleResize3}
+			<div
+				className={`titleBar__layoutItems ${
+					showLayoutMenu && 'active'
+				}`}
 			>
-				<NumberSquareThree size={18} />
-			</button> */}
+				<button
+					type="button"
+					className="titleBar__resizeTwoButton"
+					onClick={handleResize1}
+				>
+					<NumberSquareOne size={18} />
+				</button>
+
+				<button
+					type="button"
+					className="titleBar__resizeTwoButton"
+					onClick={handleResize2}
+				>
+					<NumberSquareTwo size={18} />
+				</button>
+
+				<button
+					type="button"
+					className="titleBar__resizeTreeButton"
+					onClick={handleResize3}
+				>
+					<NumberSquareThree size={18} />
+				</button>
+			</div>
 
 			<button
 				type="button"

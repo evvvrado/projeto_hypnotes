@@ -8,7 +8,7 @@ export type Channels = [
 	'resize-3',
 	'resize-2',
 	'resize-1',
-	'menu-tray'
+	'toggle-always-top'
 ];
 
 contextBridge.exposeInMainWorld('electron', {

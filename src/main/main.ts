@@ -81,6 +81,7 @@ const createWindow = async () => {
 		transparent: true,
 		icon: getAssetPath('icon.png'),
 		titleBarStyle: 'hidden',
+		resizable: false,
 		webPreferences: {
 			// contextIsolation: false,
 			// nodeIntegration: true,
@@ -221,6 +222,17 @@ ipcMain.on('resize-1', async () => {
 			width: 384,
 			height: 728,
 		});
+	}
+});
+
+ipcMain.on('toggle-always-top', async () => {
+	if (mainWindow) {
+		if (!mainWindow.isAlwaysOnTop()) {
+			mainWindow.setAlwaysOnTop(true, 'floating');
+		} else {
+			mainWindow.setAlwaysOnTop(false);
+		}
+		console.log(mainWindow.isAlwaysOnTop());
 	}
 });
 

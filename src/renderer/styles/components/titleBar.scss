@@ -29,6 +29,30 @@
 		}
 	}
 
+	&__layoutItems {
+		position: absolute;
+		top: -200%;
+		right: 4rem;
+
+		transition: opacity 0.32s;
+		transition: top 0;
+
+		opacity: 0;
+
+		background-color: $color-tertiary-background;
+
+		&.active {
+			top: 3rem;
+			opacity: 1;
+		}
+	}
+
+	&__toggleLockButton {
+		&.locked {
+			background-color: $color-tertiary-background;
+		}
+	}
+
 	&__closeButton {
 		&:hover {
 			color: $color-danger !important;
