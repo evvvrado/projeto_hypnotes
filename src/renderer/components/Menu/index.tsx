@@ -1,20 +1,53 @@
-import React, { useLayoutEffect, useRef } from 'react';
-import { Archive, DotsThreeOutlineVertical, Gear, Plus } from 'phosphor-react';
-import Detailcard from '../Detailcard';
+import React, { useContext, useLayoutEffect, useRef } from 'react';
+import {
+	Activity,
+	Archive,
+	DotsThreeOutlineVertical,
+	Export,
+	Gear,
+	Plus,
+} from 'phosphor-react';
+import ManageNotes from 'renderer/classes/ManageNotes';
 
-// import { Container } from './styles';
+import { Context } from 'renderer/contexts/NoteProvider';
+import Detailcard from '../Detailcard';
 
 type TMenu = {
 	modalClose: boolean;
-	handleToggleModal: unknown;
+	handleToggleModal: () => void;
 };
 
 const Menu: React.FC<TMenu> = ({ modalClose, handleToggleModal }) => {
-	const menuRef = useRef<any>();
+	const { handleToggleArchiveds, isActiveNotes } = useContext(Context);
+
+	const menuRef = useRef<HTMLUListElement>(null);
 
 	const handleToggleMenu = () => {
 		const menuNode = menuRef.current;
 		menuNode?.classList.toggle('show');
+	};
+
+	const CreateDownloadFile = (
+		content: BlobPart,
+		fileName: string,
+		contentType: string
+	) => {
+		const a = document.createElement('a');
+		const file = new Blob([content], { type: contentType });
+		a.href = URL.createObjectURL(file);
+		a.download = fileName;
+		a.click();
+	};
+
+	const handleExportNotes = async () => {
+		const manageNotes = new ManageNotes();
+		const atualNotes = await manageNotes.getNotes();
+
+		CreateDownloadFile(
+			JSON.stringify(atualNotes),
+			'notes.json',
+			'application/json'
+		);
 	};
 
 	useLayoutEffect(() => {
@@ -35,7 +68,7 @@ const Menu: React.FC<TMenu> = ({ modalClose, handleToggleModal }) => {
 			>
 				<DotsThreeOutlineVertical size={23} weight="fill" />
 				<span>Menu</span>
-				<small>CTRL + K</small>
+				<kbd>CTRL + K</kbd>
 			</button>
 
 			<ul ref={menuRef} className="floatMenu">
@@ -53,10 +86,28 @@ const Menu: React.FC<TMenu> = ({ modalClose, handleToggleModal }) => {
 					<button
 						type="button"
 						className="floatMenu__item__button"
-						disabled
+						onClick={handleExportNotes}
 					>
-						<Archive size={23} />
-						<span>Anotações Arquivadas</span>
+						<Export size={23} />
+						<span>Exportar Anotações</span>
+					</button>
+				</li>
+				<li className="floatMenu__item">
+					<button
+						type="button"
+						className="floatMenu__item__button"
+						onClick={handleToggleArchiveds}
+					>
+						{isActiveNotes ? (
+							<Archive size={23} />
+						) : (
+							<Activity size={23} />
+						)}
+						<span>
+							{isActiveNotes
+								? 'Anotações Arquivadas'
+								: 'Anotações Ativas'}
+						</span>
 					</button>
 				</li>
 				<li className="floatMenu__item">
@@ -68,7 +119,7 @@ const Menu: React.FC<TMenu> = ({ modalClose, handleToggleModal }) => {
 						<Plus size={23} />
 						<span>Adicionar Anotação</span>
 
-						<small>CTRL + N</small>
+						<kbd>CTRL + N</kbd>
 					</button>
 				</li>
 			</ul>

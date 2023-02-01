@@ -14,6 +14,12 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { resolveHtmlPath } from './util';
 
+const gotTheLock = app.requestSingleInstanceLock();
+
+if (!gotTheLock) {
+	app.quit();
+}
+
 class AppUpdater {
 	constructor() {
 		log.transports.file.level = 'info';

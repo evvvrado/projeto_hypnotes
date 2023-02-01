@@ -19,6 +19,8 @@ type NoteProviderType = {
 	modalClose: boolean;
 	handleToggleModal: any;
 	manageNotes: any;
+	isActiveNotes: boolean;
+	handleToggleArchiveds: any;
 };
 
 const Context = createContext({} as NoteProviderType);
@@ -32,9 +34,11 @@ const NoteProvider: React.FC<INoteProvider> = ({ children }) => {
 
 	const [notes, setNotes] = useState<INoteCard[]>(manageNotes.getNotes());
 
+	const [isActiveNotes, setIsActiveNotes] = useState(true);
+
 	const [filteredNotes, setFilteredNotes] = useState<INoteCard[]>(
 		[...notes].filter((note) => {
-			return note.active;
+			return note.active === isActiveNotes;
 		})
 	);
 
@@ -47,6 +51,11 @@ const NoteProvider: React.FC<INoteProvider> = ({ children }) => {
 	const handleToggleModal = async (reset: false) => {
 		if (reset) setSelectedNote(undefined);
 		setModalClose(!modalClose);
+		setNotes(manageNotes.getNotes());
+	};
+
+	const handleToggleArchiveds = async () => {
+		setIsActiveNotes(!isActiveNotes);
 		setNotes(manageNotes.getNotes());
 	};
 
@@ -64,6 +73,8 @@ const NoteProvider: React.FC<INoteProvider> = ({ children }) => {
 				modalClose,
 				handleToggleModal,
 				manageNotes,
+				handleToggleArchiveds,
+				isActiveNotes,
 			}}
 		>
 			{children}

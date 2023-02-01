@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 
 import {
-	Columns,
-	DeviceMobile,
-	DotsThreeOutline,
+	FrameCorners,
 	List,
+	NumberSquareOne,
+	NumberSquareThree,
+	NumberSquareTwo,
 	PictureInPicture,
-	Square,
 	X,
 } from 'phosphor-react';
 
@@ -34,12 +35,12 @@ const TitleBar: React.FC = () => {
 				<PictureInPicture size={18} />
 			</button>
 
-			<button
+			{/* <button
 				type="button"
 				className="titleBar__resizeTwoButton"
 				onClick={handleResize1}
 			>
-				<DeviceMobile size={18} />
+				<NumberSquareOne size={18} />
 			</button>
 
 			<button
@@ -47,7 +48,7 @@ const TitleBar: React.FC = () => {
 				className="titleBar__resizeTwoButton"
 				onClick={handleResize2}
 			>
-				<Columns size={18} />
+				<NumberSquareTwo size={18} />
 			</button>
 
 			<button
@@ -55,15 +56,15 @@ const TitleBar: React.FC = () => {
 				className="titleBar__resizeTreeButton"
 				onClick={handleResize3}
 			>
-				<DotsThreeOutline size={18} />
-			</button>
+				<NumberSquareThree size={18} />
+			</button> */}
 
 			<button
 				type="button"
 				className="titleBar__maxButton"
 				onClick={handleMaximize}
 			>
-				<Square size={18} />
+				<FrameCorners size={18} />
 			</button>
 
 			<button
@@ -71,7 +72,7 @@ const TitleBar: React.FC = () => {
 				className="titleBar__closeButton"
 				onClick={handleClose}
 			>
-				<X size={18} />
+				<X size={18} color="red" />
 			</button>
 		</section>
 	);

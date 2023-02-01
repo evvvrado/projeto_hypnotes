@@ -1,5 +1,14 @@
 main {
 	.container {
+		.main__warning__text {
+			font-size: 1.4rem;
+			line-height: 160%;
+			display: block;
+			color: $color-tertiary-background;
+			padding-bottom: 2rem;
+			padding-left: 4rem;
+		}
+
 		.wrapper {
 			position: relative;
 			// min-height: 80vh;

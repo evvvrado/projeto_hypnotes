@@ -1,8 +1,15 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React, { useContext, useLayoutEffect, useRef, useState } from 'react';
+import React, {
+	useCallback,
+	useContext,
+	useEffect,
+	useLayoutEffect,
+	useRef,
+	useState,
+} from 'react';
 import { Context } from 'renderer/contexts/NoteProvider';
-import { CheckCircle, Export, Archive, X } from 'phosphor-react';
-import { handleMenuTray } from 'renderer/classes/ManageWindow';
+import { CheckCircle, Archive, X } from 'phosphor-react';
+import TextEditor from '../TextEditor';
 
 type TDetailCard = {
 	modalClose?: boolean;
@@ -15,25 +22,38 @@ const Detailcard: React.FC<TDetailCard> = ({ modalClose, toggleFunction }) => {
 
 	const titleRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 	const contentRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const detailRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-	const [warningModal, setWarningModal] = useState(false);
+	const [cachedContent, setCachedContent] = useState(null);
 
 	Detailcard.defaultProps = {
 		modalClose: false,
 	};
 
+	const getAtualContent = () => {
+		return contentRef.current.editorContainer.querySelector(
+			'div[data-contents="true"]'
+		).innerHTML;
+	};
+
 	const handleCloseModal = () => {
+		const atualContent = getAtualContent();
+
 		if (
 			selectedNote &&
+			cachedContent &&
 			(manageNotes.findById(selectedNote.id).title !==
-				titleRef.current.innerText ||
-				manageNotes.findById(selectedNote.id).content !==
-					contentRef.current.innerHTML)
+				titleRef.current.value ||
+				cachedContent !== atualContent)
 		) {
-			setWarningModal(true);
+			detailRef.current.classList.add('warningModal');
+
+			console.log(cachedContent, '\n', atualContent);
 
 			setTimeout(() => {
-				setWarningModal(false);
+				if (!modalClose) {
+					detailRef.current.classList.remove('warningModal');
+				}
 			}, 320);
 		} else {
 			toggleFunction(true);
@@ -51,18 +71,28 @@ const Detailcard: React.FC<TDetailCard> = ({ modalClose, toggleFunction }) => {
 	const handleSaveNote = async () => {
 		let newNotes;
 
+		const atualContent = await getAtualContent();
+
 		if (selectedNote) {
 			newNotes = await manageNotes.saveNote(
 				selectedNote.id,
-				titleRef.current.innerText,
-				contentRef.current.innerHTML
+				titleRef.current.value,
+				atualContent
 			);
+
+			detailRef.current.classList.add('savingModal');
+
+			setTimeout(() => {
+				if (!modalClose) {
+					detailRef.current?.classList.remove('savingModal');
+				}
+			}, 320);
 		}
 
 		if (!selectedNote) {
 			manageNotes.addNewNote({
-				title: titleRef.current.innerText,
-				content: contentRef.current.innerHTML,
+				title: titleRef.current.value,
+				content: atualContent,
 			});
 
 			newNotes = await manageNotes.getNotes();
@@ -70,6 +100,7 @@ const Detailcard: React.FC<TDetailCard> = ({ modalClose, toggleFunction }) => {
 			toggleFunction();
 		}
 
+		setCachedContent(null);
 		setNotes(newNotes);
 	};
 
@@ -83,33 +114,26 @@ const Detailcard: React.FC<TDetailCard> = ({ modalClose, toggleFunction }) => {
 				if (modalClose) toggleFunction(true);
 			} else if (e.ctrlKey && e.which === 87) {
 				e.preventDefault();
-				handleMenuTray();
+				// handleMenuTray();
 			}
 		});
 	});
+
+	useEffect(() => {
+		if (!contentRef.current) return;
+
+		setCachedContent(getAtualContent());
+	}, [modalClose, setCachedContent]);
 
 	if (modalClose) return <></>;
 
 	return (
 		<>
-			<div
-				className={`modal detail__card ${
-					warningModal && 'warningModal'
-				}`}
-			>
+			<div ref={detailRef} className="modal detail__card">
 				<div className="modal__box">
 					<div className="modal__actions">
 						{selectedNote && (
 							<>
-								<button
-									type="button"
-									className="modal__icon"
-									disabled
-									onClick={handleCloseModal}
-								>
-									<Export size={18} />
-								</button>
-
 								<button
 									type="button"
 									className="modal__icon"
@@ -129,28 +153,25 @@ const Detailcard: React.FC<TDetailCard> = ({ modalClose, toggleFunction }) => {
 						</button>
 					</div>
 					<div className="modal__content">
-						<strong
+						<input
+							type="text"
+							name="modal__content__title"
 							className="modal__content__title"
 							ref={titleRef}
-							contentEditable="true"
-							// eslint-disable-next-line react/no-danger
-						>
-							{selectedNote
-								? selectedNote.title
-								: 'Digite o Título...'}
-						</strong>
+							defaultValue={
+								selectedNote
+									? selectedNote.title
+									: 'Digite o Título...'
+							}
+						/>
 
 						<div className="modal__content__wrapper">
-							<div
-								className="modal__content__text"
-								ref={contentRef}
-								contentEditable="true"
-								// eslint-disable-next-line react/no-danger
-								dangerouslySetInnerHTML={{
-									__html: selectedNote
-										? selectedNote.content
-										: 'Digite o conteúdo...',
-								}}
+							<TextEditor
+								value={
+									selectedNote?.content ??
+									'Digite a conteúdo...'
+								}
+								contentRef={contentRef}
 							/>
 						</div>
 					</div>
@@ -170,7 +191,7 @@ const Detailcard: React.FC<TDetailCard> = ({ modalClose, toggleFunction }) => {
 			>
 				<CheckCircle size={23} />
 				<span>Salvar Anotação</span>
-				<small>CTRL + S</small>
+				<kbd>CTRL + S</kbd>
 			</button>
 		</>
 	);

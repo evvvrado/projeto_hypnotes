@@ -3,15 +3,18 @@ import React, { useContext, useEffect } from 'react';
 import { Context } from 'renderer/contexts/NoteProvider';
 
 const Header: React.FC = () => {
-	const { search, setSearch, setFilteredNotes, notes } = useContext(Context);
+	const { search, setSearch, setFilteredNotes, notes, isActiveNotes } =
+		useContext(Context);
 	const searchValue = search.toLocaleLowerCase();
 
 	useEffect(() => {
 		setFilteredNotes(
 			[...notes].filter(({ title, content, active }) => {
 				return (
-					(title.toLowerCase().includes(searchValue) && active) ||
-					(content.toLowerCase().includes(searchValue) && active)
+					(title.toLowerCase().includes(searchValue) &&
+						active === isActiveNotes) ||
+					(content.toLowerCase().includes(searchValue) &&
+						active === isActiveNotes)
 				);
 			})
 		);

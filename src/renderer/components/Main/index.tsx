@@ -5,7 +5,7 @@ import Menu from '../Menu';
 import Notecard from '../Notecard';
 
 const Main: React.FC = () => {
-	const { modalClose, handleToggleModal, filteredNotes } =
+	const { modalClose, handleToggleModal, filteredNotes, isActiveNotes } =
 		useContext(Context);
 
 	const mainRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -89,6 +89,12 @@ const Main: React.FC = () => {
 	return (
 		<main ref={mainRef}>
 			<div className="container">
+				{!isActiveNotes && (
+					<span className="main__warning__text">
+						MOSTRANDO ARQUIVADAS
+					</span>
+				)}
+
 				<div className="wrapper" ref={wrapperRef}>
 					{visualNotes.map((note: INoteCard) => {
 						return (
@@ -105,7 +111,6 @@ const Main: React.FC = () => {
 					})}
 				</div>
 			</div>
-
 			<Menu
 				handleToggleModal={handleToggleModal}
 				modalClose={modalClose}
